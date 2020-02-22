@@ -1,11 +1,14 @@
-# Introduction
+# Modularized Front-End. Part 1: TypeScript and OOP
+
+> All code examples you can find [here](https://github.com/denistakeda/modulas)
+
 TypeScript is getting more and more popular nowadays and no wonder,
 it provides nice well-known syntax, but also type safety on a level
 that even some back-end languages can not beat. But I've noticed that
 sometimes folks use this new shiny thing as an old one. Let's try to
 demonstrate it with a simple example.
 
-## Formulation of the problem
+## The problem
 We are going to implement a very simple quiz app. Every question in the quiz
 should have multiple answers but only one of them is correct.
 A user can answer a question, navigate between questions back, forth, and by
@@ -17,7 +20,7 @@ We are going to take a very trivial stack: React, Redux and TypeScript.
 Even though we are choosing the exact technologies,
 this article is relevant for the whole front-end stack in general.
 
-## Let's get started
+## Data model
 So, we are going to write Redux app, the data model goes first:
 
 ```typescript
@@ -36,7 +39,11 @@ interface Question {
 }
 ```
 
-So far so good, some actions next:
+## Actions
+So far so good, some actions next. Recent versions of typescript
+support the [Discirminated
+Unions](https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions).
+This is very good candidate to model the signaling system.
 
 ```typescript
 const NEXT_QUESTION = 'NEXT_QUESTION';
@@ -65,11 +72,12 @@ type Action =
     | AnswerCurrentQuestionAction 
 ```
 
-And the most interesting part, reducer. Redux author strongly suggests using
-immutable data transformations inside a reducer and I would highly suggest
-following this rule rigorously, otherwise, you gonna have very weird bugs
-and bad performance all over the place. But luckily we have the spread operator,
-it's not going to be a problem, right?
+## Reducer
+And the most interesting part, reducer. Dan Abramov, the author of Redux
+strongly suggests using immutable data transformations inside a reducer
+and I would highly suggest following this rule rigorously, otherwise,
+you gonna have very weird bugs and bad performance all over the place.
+But luckily we have the spread operator, it's not going to be a problem, right?
 
 ```typescript
 function reducer(state: State = defaultState, action: Action): State {
@@ -110,6 +118,7 @@ case ANSWER_CURRENT_QUESTION: {
 
 ```
 
+## Here be dragons
 WOW...This is too much even for me. So much ceremony just for nothing,
 and we are only 3 levels deep, what if we go deeper... No wonder some
 clever guys invented immutable.js, mori and Ramda (which is actually quite
@@ -150,6 +159,7 @@ case ANSWER_CURRENT_QUESTION: {
 Not bad at all! Very impressive, isn't it? We are done, problem is solved,
 just install immer and go to prod.
 
+## Other point of view
 But let's try to do a step back, look at the problem from another point of view.
 I'd ask one question: what reducer knows? Turns out it knows quite a lot of things:
 - It knows that there is a state and this state has a quiz field.
@@ -165,6 +175,16 @@ And while our app grows, reducer knows more and more. We just implemented an
 antipattern "the God Object", but in our case, it's "the God Function".
 Looks like we missed the forest for the tree.
 
+## Fantasy land
+Long time ago, in 1987, Lan Holand proposed the ["Law of Demeter"](https://en.wikipedia.org/wiki/Law_of_Demeter)
+In my experience it's one of the most important software design rule.
+Here it is:
+
+- Each unit should have only limited knowledge about other units:
+only units "closely" related to the current unit.
+- Each unit should only talk to its friends; don't talk to strangers.
+- Only talk to your immediate friends.
+
 So what can be done here? How the ideal reducer should look like? In my fantasy
 land with pink unicorns and rainbow the ideal API would look kinda like this:
 
@@ -175,10 +195,16 @@ case ANSWER_CURRENT_QUESTION:
     return { ...state, quiz: state.quiz.answerCurrentQuestion(action.n) };
 ```
 
-Can we implement that? Yes, we can! Actually, we can even do it in two ways. 
+Is this possible to implement? Yes it is! Actually, we can even do it in two ways. 
 
-# Solution 1: Hello OOP.
+## Solution 1: Hello OOP.
 
+In OOP world it's quite a common practice to use classes as modules.
+So we can encapsulate our logic inside classes for better programmer
+experience
+
+It's often usefult to thing about software in terms of invariant.
+Invariant is a sentence that is (or should be) always true.
 Our app has several invariants that we want to enforce:
 
 - Quiz has several questions
@@ -196,6 +222,8 @@ But in general, how can we enforce an invariant. I'm aware of 3 ways to do so:
 
 I strongly prefer the third way against all others (testing is also fine,
 but as an addition, not alone).
+
+## Inforcing invariants
 What can go wrong with our initial data structure?
 
 ```typescript
@@ -225,6 +253,9 @@ Nobody should know what is inside our class, that way we can change our
 inner implementation and API still stays the same.
 But how to create an instance of our class?
 
+## Initialize data
+Now we need a way to create and instance of our data
+
 ```typescript
 // Constructor here is private, this is very important
 // it's only for us and should not be used outside
@@ -246,6 +277,8 @@ public static init([first, ...rest]: [Question, ...Question[]]): Quiz {
     return new Quiz([], first, rest);
 }
 ```
+
+## Data manipulations
 So, how can we navigate back and forth between our questions?
 ```typescript
 // Very useful function can be used from outside,
@@ -277,6 +310,7 @@ public next(): Quiz {
 }
 ```
 
+## Chaining steps
 Notice that most functions return `Quiz` again.
 This way we can safely compose our operations via dot:
 
@@ -340,27 +374,16 @@ class Question {
 
         return new Question(this.text, this.answers, this.correctAnswer, n);
     }
-
-    public isAnswered(): boolean {
-        return typeof this.selectedAnswer != 'undefined';
-    }
-
-    public isAnsweredCorrectly(): boolean {
-        if (typeof this.selectedAnswer == 'undefined') return false;
-
-        return this.selectedAnswer == this.correctAnswer;
-    }
-
-    public isSelectedAnswer(n: number) {
-        return n == this.selectedAnswer;
-    }
 }
 ```
 
-# Is this better?
+# Wraping up
 
-I'm not a big fan of OOP paradigm, but this solution is definitely better than
-what we had initially. If we want to add new functionality to the quiz, there
+We just created two modules that follow the "Low of Demeter". Each of them
+interact with only his own data and with "closest relatives" using their API
+functions, not the internal data direcly. 
+
+If we want to add new functionality to the quiz, there
 is only one place we can put it, as well as when we are searching for some
 quiz-related functionality. What does reducer know about our app?
 It knows that there is a quiz, it can be iterated back and forth and it can
