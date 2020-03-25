@@ -54,7 +54,7 @@ function _isSelectedAnswer(question: Question): boolean {
 
 ```
 
-Some people tend to use underscore before the function to emphasize its privaty.
+Some people tend to use underscore before the function to emphasize its privacy.
 
 ## Discriminant
 
