@@ -2,23 +2,23 @@
 
 In my [previous](/001_modularized_frontend.md) article I've shown how to
 split application by modules in an OOP way and promised to show FP way
-also. But functional programming technicks are not so widely explained
+also. But functional programming techniques are not so widely explained
 in documentation and people in general are less aware how to do it
 (just because it's less popular). I decided first to show some general
-FP technicks and then combine them together to create an app.
+FP techniques and then combine them together to create an app.
 
 In this article I'll show how to implement algebraic data types in
 TypeScript (they are called
 [discriminated
 unions](https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions)
 here). Quite a usefull instrument to model our domain model and 
-underesimated in favor of classes.
+underestimated in favor of classes.
 
 ## Modules instead of classes
 
 In the OOP world we have quite a deligent way to encapsulate the
 inner details of data manipulations, these are public/protected/private 
-modificators. Using this we can easy hide implementation detailes under
+modificators. Using this we can easy hide implementation details under
 a fence of classes.
 
 First time I tried to use functional programming paradigm in Typescript,
@@ -101,9 +101,9 @@ type Question = Unanswered | Answered;
 ```
 
 In such a way our question can be in two completely different states, answered
-and not and we have different sets of fields for each state. Morower, Typescript
+and not and we have different sets of fields for each state. Moreover, Typescript
 compiler can statically check in which state a question is now and allow for
-acces only properties from this state.
+access only properties from this state.
 
 ## Usage
 
