@@ -17,7 +17,7 @@ underesimated in favor of classes.
 ## Modules instead of classes
 
 In the OOP world we have quite a deligent way to encapsulate the
-inner details of data manipulations, the are public/protected/private 
+inner details of data manipulations, these are public/protected/private 
 modificators. Using this we can easy hide implementation detailes under
 a fence of classes.
 
