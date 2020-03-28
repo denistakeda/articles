@@ -5,5 +5,5 @@
 3. [Functional Typescript: Opaque Types](/004_typescript_opaque.md)
 
 
-If you want to get a notifications about new articles, just subscribe to this
+If you want to get notifications about new articles, just subscribe to this
 [repo](https://github.com/denistakeda/articles) or follow me in [Twitter](https://twitter.com/denis_takeda)
