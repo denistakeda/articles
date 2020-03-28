@@ -122,7 +122,7 @@ interface Answered {
 export type Question = Unanswered | Answered;
 ```
 
-### Constructor functions
+## Constructor functions
 
 Ok, now we have only type, what can we do with it from the external code? 
 We can define a variable of this type:
@@ -207,7 +207,7 @@ export function isAnsweredCorrectrly(question: Question): boolean {
 }
 ```
 
-### Usage
+## Usage
 
 Using *Opaque Types* is quite simple. Just import the module and use functions:
 
