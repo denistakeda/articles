@@ -1,4 +1,4 @@
-# Modularized Front-End. Part 1: TypeScript and OOP
+# Modularized Front-End: TypeScript and OOP
 
 > All code examples you can find [here](https://github.com/denistakeda/modulas)
 
@@ -41,7 +41,7 @@ interface Question {
 
 ## Actions
 So far so good, some actions next. Recent versions of typescript
-support the [Discirminated
+support the [Discriminated
 Unions](https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions).
 This is very good candidate to model the signaling system.
 
@@ -74,8 +74,8 @@ type Action =
 
 ## Reducer
 And the most interesting part, reducer. Dan Abramov, the author of Redux
-strongly suggests using immutable data transformations inside a reducer
-and I would highly suggest following this rule rigorously, otherwise,
+strongly suggests using immutable data transformations inside a reducer,
+and I would highly suggest following this rule rigorously. Otherwise,
 you gonna have very weird bugs and bad performance all over the place.
 But luckily we have the spread operator, it's not going to be a problem, right?
 
@@ -173,7 +173,7 @@ Actually, it knows everything, every tiny detail of our app. We can extract some
 helper functions, move them somewhere (try to find them after that).
 And while our app grows, reducer knows more and more. We just implemented an
 antipattern "the God Object", but in our case, it's "the God Function".
-Looks like we missed the forest for the tree.
+Looks like we missed the forest for the trees.
 
 ## Fantasy land
 Long time ago, in 1987, Lan Holand proposed the ["Law of Demeter"](https://en.wikipedia.org/wiki/Law_of_Demeter)
@@ -203,7 +203,7 @@ In OOP world it's quite a common practice to use classes as modules.
 So we can encapsulate our logic inside classes for better programmer
 experience
 
-It's often usefult to thing about software in terms of invariant.
+It's often useful to think about software in terms of invariant.
 Invariant is a sentence that is (or should be) always true.
 Our app has several invariants that we want to enforce:
 
@@ -270,7 +270,7 @@ private constructor(
 }
 
 // This method is public and it's an actual way to create
-// and instance. The only parameter here is the non-empty
+// an instance. The only parameter here is the non-empty
 // list of questions. The first element immediately gets current
 // all others go to next array and the prev array is left empty
 public static init([first, ...rest]: [Question, ...Question[]]): Quiz {
@@ -381,12 +381,12 @@ class Question {
 
 We just created two modules that follow the "Low of Demeter". Each of them
 interact with only his own data and with "closest relatives" using their API
-functions, not the internal data direcly. 
+functions, not the internal data directly. 
 
 If we want to add new functionality to the quiz, there
 is only one place we can put it, as well as when we are searching for some
 quiz-related functionality. What does reducer know about our app?
-It knows that there is a quiz, it can be iterated back and forth and it can
+It knows that there is a quiz, it can be iterated back and forth, and it can
 be answered (so no consideration about shape, Quiz is a black box for reducer).
 Notice it knows nothing about the question at all.
 Also, changes are quite easy to add now, refactoring is also getting very
@@ -396,5 +396,5 @@ just add tests for the public API and do whatever you want inside.
 If you want some more extended example with all the glue code altogether,
 I created and [example](https://github.com/denistakeda/modulas) repo for you.
 
-In the next article, I'll show how how to go even further and implement the
+In the [next](/003_typescript_adt.md) article, I'll show you how to go even further and implement the
 same logic in the functional paradigm.
