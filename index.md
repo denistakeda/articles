@@ -1,6 +1,6 @@
 # Articles
 
-1. [Modularized Front-End. Part 1: TypeScript and OOP](/001_modularized_frontend.md)
+1. [Modularized Front-End: TypeScript and OOP](/001_modularized_frontend.md)
 2. [Functional Typescript: Algebraic data types](/003_typescript_adt.md)
 3. [Functional Typescript: Opaque Types](/004_typescript_opaque.md)
 

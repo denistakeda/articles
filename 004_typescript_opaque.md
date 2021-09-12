@@ -1,26 +1,26 @@
 # Functional Typescript: Opaque Types
 
-Objective oriented programming paradigm provides a wide set of incapsulation
+Objective oriented programming paradigm provides a wide set of encapsulation
 mechanisms. It has public/private/protected class-level modificators for
-fields and inheritance which create a high level of incapsulation. But what
-is the notion of incapsulation? Why do we want to have it in general? There
+fields and inheritance which create a high level of encapsulation. But what
+is the notion of encapsulation? Why do we want to have it in general? There
 are a couple of reason why do we might to have this trick in our toolbelt:
 
-- We want to hide wrap some inner data structure to provide effecien algorighm
+- We want to hide wrap some inner data structure to provide efficient algorithm
 via API, which we don't want any strangers to modify
 - We want to hide some implementation details to be able to change them later
 and not break anyone's code
 - We want to disallow adding any functionality to our datatype anywhere except
 one exact place: wrapping class.
 
-The third option can actually be easily broken via enheritance (this is one of
-the reasons why inheritance considered an antipattern).
+The third option can actually be easily broken via inheritance (this is one of
+the reasons why inheritance considered as an antipattern).
 
 But this is OOP, in functional programming there is no classes and therefore
 no visibility modificators. Data types are usually defined top-level and
-completely separated from functions. So should be give up encapsulation in FP?
+completely separated from functions. So should we give up encapsulation in FP?
 
-Actually no. There is deligent pattern to achive the same level of incapsulation
+Actually no. There is diligent pattern to achieve the same level of encapsulation
 in functional programming, it's called *Opaque Types*.
 
 ## What is *Opaque Types*?
@@ -34,7 +34,7 @@ but hides type constructors. That's it, nothing too fancy. Still don't get it
 ## Implementation
 
 *Opaque Types* are widely used in many strongly typed functional languages, like
-Haskell or Elm, but for some reason I've never seen even a mention about them
+Haskell or Elm, but for some reason I've never seen even a mention them
 in TypeScript context. This is unfortunate, because they can be easily
 implemented and very usefull there as well. Let's try to do it by example.
 
@@ -49,7 +49,7 @@ In this example we are going to implement Question type for some quiz. Question
 can be in two states, answered and not. If question is not answered yet, then
 we want to have the full information, like question text, list of available
 answers and the number of a correct answer as well. If question is already 
-answered then we don't need most of these information anymore, we need only
+answered then we don't need most of its information anymore, we need only
 the selected answer number and is this correct or not.
 
 ```typescript
@@ -92,7 +92,7 @@ in any state? *No, we don't*
 If the question were class, most likely it would have a private constructor
 and some public construction function, that allows only defined set of
 operations, but we don't have public/private modificators here, so how
-to achive the same level of incapsulation? We can do it by using `export`
+to achieve the same level of encapsulation? We can do it by using `export`
 keyword
 
 ```typescript
@@ -157,7 +157,7 @@ export function create(text: string, answers: string[], correctAnswer: number): 
 ```
 
 All these exceptions look a bit non-FP, and they are also really hard to
-compose. Instead we can use a `Result` type, but this is the materal for
+compose. Instead, we can use a `Result` type, but this is the material for
 the full article, so will wait till later.
 
 After we create our constructor function it would be nice to have some 
@@ -237,18 +237,18 @@ anything.
 
 ## Why is it helpful
 
-The *Opaque Typese* give us the same level of incapsulation, safety and
+The *Opaque Types* give us the same level of encapsulation, safety and
 consistency as classes from OOP, but the cost is quite lower, we don't
 have implicit `this` state, which might be source of all sorts of disaster.
 Also opaque types do not own your data, your code own data (as you can see
 in the example above), module for opaque types just provide a useful 
-interface to work will your data, which might be very important in some
+interface to work with your data, which might be very important in some
 cases.
 
 ## Downsides
 
 Every poverfull tool has its own downsides that come with it. 
-*Opaque Types* is not an exception. You should be carefull when choosing
+*Opaque Types* is not an exception. You should be careful when choosing
 to make a type opaque. First of all, implementation will be hidden,
 which is very good in some cases and very bad in others. If you find
 yourself writing getters and setter for most fields in your type
@@ -266,7 +266,7 @@ structure of your type.
 
 In this article I explained how can we encapsulate type inside the
 module by using *Opaque Type*, we've looked at the example usage
-and detailed implementation. This will be very helpfull when we
+and detailed implementation. This will be very helpful when we
 get back to implement our [quiz app](/001_modularized_frontend.md) later.
 In the next article I show what is immutability, why is this important,
 how to use it correctly, what are persistent data transformations and
