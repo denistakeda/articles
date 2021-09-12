@@ -11,25 +11,25 @@ In this article I'll show how to implement algebraic data types in
 TypeScript (they are called
 [discriminated
 unions](https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions)
-here). Quite a usefull instrument to model our domain model and 
+here). Quite a useful instrument to model our domain model and 
 underestimated in favor of classes.
 
 ## Modules instead of classes
 
-In the OOP world we have quite a deligent way to encapsulate the
+In the OOP world we have quite a diligent way to encapsulate the
 inner details of data manipulations, these are public/protected/private 
-modificators. Using this we can easy hide implementation details under
+modificators. Using this we can easily hide implementation details under
 a fence of classes.
 
 First time I tried to use functional programming paradigm in Typescript,
-I did't know how to do this sort of thing in the right way, but turns out
+I didn't know how to do this sort of thing in the right way, but turns out
 there is nothing too fancy here, we already have everything we need for
 that.
 
 In languages like Haskell or Elm people often use modules for similar purposes.
 The idea is quite simple here, module is a file, often centralized around a
 single type. Managing the access rights is done by exporting or not
-exporting functions and types. Funcion or type that is exported considered
+exporting functions and types. Function or type that is exported considered
 public.
 Here an example:
 
@@ -59,7 +59,7 @@ Some people tend to use underscore before the function to emphasize its privacy.
 ## Discriminant
 
 There are two ways you can model data, with open sets (classes and polymorphism)
-and closed sets (algebraic data types). If you know beforehead the number of
+and closed sets (algebraic data types). If you know beforehand the number of
 possibilities, then it's better to enumerate them all. To do so ADT usually
 used.
 
@@ -101,7 +101,7 @@ type Question = Unanswered | Answered;
 ```
 
 In such a way our question can be in two completely different states, answered
-and not and we have different sets of fields for each state. Moreover, Typescript
+and not, and we have different sets of fields for each state. Moreover, Typescript
 compiler can statically check in which state a question is now and allow for
 access only properties from this state.
 
@@ -143,5 +143,5 @@ function answerQuestion(question: Question, selectedAnswer: number): Question {
 
 Discriminant union types (or Algebraic Data Types) is an awesome instrument to
 model a closed set of types. It's fully supported by TypeScript compiler
-and a good fit to describe some known set of types for a single value. In next
+and a good fit to describe some known set of types for a single value. In [next](/004_typescript_opaque.md)
 articles I'll show how to use this construction in a practical application.
