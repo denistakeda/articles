@@ -223,7 +223,7 @@ But in general, how can we enforce an invariant. I'm aware of 3 ways to do so:
 I strongly prefer the third way against all others (testing is also fine,
 but as an addition, not alone).
 
-## Inforcing invariants
+## Enforcing invariants
 What can go wrong with our initial data structure?
 
 ```typescript
